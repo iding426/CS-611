@@ -1,3 +1,3 @@
-public Class Output {
-    ...
+public class Output {
+    
 }
