@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Board {
+public class SlidingBoard {
     private int rows;
     private int cols;
     private int[][] grid;
@@ -11,7 +11,7 @@ public class Board {
 
     private int[][] solved;
 
-    public Board(int rows, int cols) {
+    public SlidingBoard(int rows, int cols) {
         grid = new int[rows][cols];
         solved = new int[rows][cols];
 

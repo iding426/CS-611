@@ -5,10 +5,13 @@ public class DotsCrossesManager extends GameManager {
     private Input input;
     private Output output;
 
+    private boolean p1Turn;
+
     public DotsCrossesManager() {
         board = null;
         player1 = new Player("Player 1");
         player2 = new Player("Player 2");
+        p1Turn = true;
 
         input = new Input();
         output = new Output();
@@ -23,11 +26,11 @@ public class DotsCrossesManager extends GameManager {
         output.printWelcome();
 
         // Get player names
-        System.out.println("\nPlayer 1:");
+        System.out.println("\nPlayer 1");
         String name1 = input.getUsername();
         player1 = new Player(name1);
         
-        System.out.println("\nPlayer 2:");
+        System.out.println("\nPlayer 2");
         String name2 = input.getUsername();
         player2 = new Player(name2);
 
@@ -49,7 +52,34 @@ public class DotsCrossesManager extends GameManager {
 
     @Override
     public void gameLoop() {
+        while (true) {
+            if (gameEnd()) {
+                Player winner = getWinner();
+                if (winner != null) {
+                    output.printWin(winner);
+                } else {
+                    output.printDraw();
+                }
+                break;
+            }
+            
+            Player p = p1Turn ? player1 : player2;
 
+            output.nextMove(p);
+            int[] move = input.getMove();
+            DotsCrossesTile tile1 = (DotsCrossesTile) board.getTileByIndex(move[0]);
+            DotsCrossesTile tile2 = (DotsCrossesTile) board.getTileByIndex(move[1]);
+
+            if (!board.neighbors(tile1, tile2) || tile1.getOwner() != null || tile2.getOwner() != null) {
+                output.printInvalidMove();
+                continue;
+            } else {
+                
+                board.markEdge(tile1, tile2, p);
+
+                p1Turn = !p1Turn;
+            }
+        }
     }
 
     @Override
@@ -71,17 +101,17 @@ public class DotsCrossesManager extends GameManager {
         for (int row = 0; row < rows; row++) {
             // Print dots and horizontal edges
             for (int col = 0; col < cols; col++) {
-                sb.append("o");
+                sb.append("+");
                 
                 DotsCrossesTile tile = (DotsCrossesTile) boardGrid[row][col];
                 // Horizontal edge (top)
                 if (tile.getTopEdge() != null) {
-                    sb.append("───");
+                    sb.append("---");
                 } else {
                     sb.append("   ");
                 }
             }
-            sb.append("o\n");
+            sb.append("+\n");
             
             // Print vertical edges and tile content
             for (int col = 0; col < cols; col++) {
@@ -89,7 +119,7 @@ public class DotsCrossesManager extends GameManager {
                 
                 // Vertical edge (left)
                 if (tile.getLeftEdge() != null) {
-                    sb.append("│");
+                    sb.append("|");
                 } else {
                     sb.append(" ");
                 }
@@ -109,7 +139,7 @@ public class DotsCrossesManager extends GameManager {
             // Right edge of last column
             DotsCrossesTile lastTile = (DotsCrossesTile) boardGrid[row][cols - 1];
             if (lastTile.getRightEdge() != null) {
-                sb.append("│");
+                sb.append("|");
             } else {
                 sb.append(" ");
             }
@@ -118,17 +148,17 @@ public class DotsCrossesManager extends GameManager {
         
         // Print bottom row of dots and horizontal edges
         for (int col = 0; col < cols; col++) {
-            sb.append("o");
+            sb.append("+");
             
             DotsCrossesTile tile = (DotsCrossesTile) boardGrid[rows - 1][col];
             // Bottom edge
             if (tile.getBottomEdge() != null) {
-                sb.append("───");
+                sb.append("---");
             } else {
                 sb.append("   ");
             }
         }
-        sb.append("o\n");
+        sb.append("+\n");
         
         return sb.toString();
     }

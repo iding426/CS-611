@@ -7,6 +7,10 @@ public class Output {
         System.out.println("Thanks for playing Dots and Crosses! Goodbye!");
     }
 
+    public void nextMove(Player p) {
+        System.out.println(p.getUsername() + ", it's your turn!");
+    }
+
     public void printInvalidMove() {
         System.out.println("Invalid move! Please try again.");
     }

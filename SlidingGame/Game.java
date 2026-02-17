@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Game {
-    private Board board;
+    private SlidingBoard board;
     private Scanner scanner;
 
     public Game() {
@@ -25,7 +25,7 @@ public class Game {
     private void setupGame() {
         int rows = promptForDimension("rows");
         int cols = promptForDimension("columns");
-        board = new Board(rows, cols);
+        board = new SlidingBoard(rows, cols);
         
         System.out.println("Board Created!");
         board.printBoard();
