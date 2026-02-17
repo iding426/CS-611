@@ -18,7 +18,7 @@ public abstract class Tile {
         return rowIndex;
     }
 
-    public int getCol() {
+    public int getColumn() {
         return colIndex;
     }
 

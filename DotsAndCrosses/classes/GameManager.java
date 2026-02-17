@@ -11,6 +11,6 @@ abstract class GameManager{
 
     abstract void initGame();
     abstract void gameLoop();
-    abstract boolean checkWin();
+    abstract boolean gameEnd();
     abstract Player getWinner();
 }

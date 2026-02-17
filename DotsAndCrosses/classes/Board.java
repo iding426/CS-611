@@ -1,23 +1,9 @@
-abstract class Board {
-    int rows;
-    int cols;
-    Tile[][] board;
+public interface Board {
+    public abstract int getRows();
+    public abstract int getColumns();
 
-    public int getRows() {
-        return rows;
-    }
-
-    public int getCols() {
-        return cols;
-    }
-
-    public Tile[][] getBoard() {
-        return board;
-    }
-
-    public Tile getTile(int row, int col) {
-        return board[row][col];
-    }
+    public abstract Tile getTile(int row, int column);
+    public abstract Tile[][] getBoard();
 
     public abstract boolean neighbors(Tile a, Tile b);
 }

@@ -1,4 +1,4 @@
-abstract class Player {
+class Player {
     String username;
     int moveCount;
 
