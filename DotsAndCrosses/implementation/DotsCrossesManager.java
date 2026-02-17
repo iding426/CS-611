@@ -1,3 +1,10 @@
+/*
+    TODO:
+        - Figure out prompting for border edges
+        - Move counter
+*/
+
+
 public class DotsCrossesManager extends GameManager {
     private DotsCrossesBoard board;
     private Player player1;
@@ -62,7 +69,7 @@ public class DotsCrossesManager extends GameManager {
                 }
                 break;
             }
-            
+
             Player p = p1Turn ? player1 : player2;
 
             output.nextMove(p);
@@ -79,6 +86,8 @@ public class DotsCrossesManager extends GameManager {
 
                 p1Turn = !p1Turn;
             }
+
+            output.printBoard(getBoardString());
         }
     }
 
