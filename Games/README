@@ -1,0 +1,109 @@
+﻿Guide to Readme.txt or Readme.md
+Required sections: Header, Files, Notes, How to compile and run, I/O Example
+
+
+# CS611-Assignment 1
+## Sliding Game
+---------------------------------------------------------------------------
+- Name: Ian Ding
+- Email: iding918@bu.edu
+- Student ID: U66239752
+
+
+## Files
+---------------------------------------------------------------------------
+
+Runner.java: This is a wrapper that is used to create an instance of our game and start it.
+Game.java: This class handles reading and writing to and from the terminal for the game. It also controls the main game loop.
+Board.java: This class implements the board object. It handles the maintence of the game state including verifying a win, finding legal moves, making slides, and setting up the 
+            game board. 
+
+
+## Notes
+---------------------------------------------------------------------------
+
+1. All of the scrambles are solvable because they are generated how a board would be shuffled in real life. With a random number of random slides.
+2. Map can be extended to 3-D
+
+## How to compile and run
+---------------------------------------------------------------------------
+
+1. Navigate to the directory "Sliding Game" after unzipping the files
+2. Run the following instructions:
+javac *.java
+java Runner
+
+## Input/Output Example
+---------------------------------------------------------------------------
+Output:
+Welcome to the Sliding Puzzle Game!
+Try to order the tiles from least to greatest.
+Enter number of rows: 
+
+Input:
+2
+
+Output:
+Enter number of columns: 
+
+Input:
+2
+
+Output:
+Board Created!
++---+---+
+| 1 | 2 |
++---+---+
+| 3 | _ |
++---+---+
+Shuffling!
++---+---+
+| 2 | 3 |
++---+---+
+| 1 | _ |
++---+---+
+Enter the row and column of the tile to slide (or -1 to quit):
+
+Input:
+0 1
+
+Output:
++---+---+
+| 2 | _ |
++---+---+
+| 1 | 3 |
++---+---+
+Enter the row and column of the tile to slide (or -1 to quit):
+
+Input:
+0 0
+
+Output:
++---+---+
+| _ | 2 |
++---+---+
+| 1 | 3 |
++---+---+
+Enter the row and column of the tile to slide (or -1 to quit):
+
+Input:
+1 0
+
+Output:
++---+---+
+| 1 | 2 |
++---+---+
+| _ | 3 |
++---+---+
+Enter the row and column of the tile to slide (or -1 to quit):
+
+Input:
+1 1
+
+Output:
++---+---+
+| 1 | 2 |
++---+---+
+| 3 | _ |
++---+---+
+Puzzle solved!
