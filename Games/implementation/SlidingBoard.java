@@ -8,21 +8,23 @@ import java.util.Random;
         - Fill in Extended Methods
 */
 
-public class SlidingBoard extends Board {
+public class SlidingBoard implements Board {
     private int rows;
     private int cols;
-    private int[][] grid;
+    private SlidingTile[][] grid;
     private int emptyRow;
     private int emptyCol;
 
-    private int[][] solved;
+    private SlidingTile[][] solved;
+    private SlidingOutput output;
 
     public SlidingBoard(int rows, int cols) {
-        grid = new int[rows][cols];
-        solved = new int[rows][cols];
+        grid = new SlidingTile[rows][cols];
+        solved = new SlidingTile[rows][cols];
 
         this.rows = rows;
         this.cols = cols;
+        this.output = new SlidingOutput();
 
         int counter = 1; // Value to put in the board
         
@@ -34,11 +36,11 @@ public class SlidingBoard extends Board {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (i == emptyRow && j == emptyCol) {
-                    grid[i][j] = 0;
-                    solved[i][j] = 0;
+                    grid[i][j] = new SlidingTile(i, j, 0);
+                    solved[i][j] = new SlidingTile(i, j, 0);
                 } else {
-                    grid[i][j] = counter;
-                    solved[i][j] = counter;
+                    grid[i][j] = new SlidingTile(i, j, counter);
+                    solved[i][j] = new SlidingTile(i, j, counter);
                     counter++;
                 }
             }
@@ -60,8 +62,8 @@ public class SlidingBoard extends Board {
     }
 
     public void slide(int r, int c) {
-        grid[emptyRow][emptyCol] = grid[r][c];
-        grid[r][c] = 0;
+        grid[emptyRow][emptyCol].setValue(grid[r][c].getValue());
+        grid[r][c].setValue(0);
         emptyRow = r;
         emptyCol = c;
     }
@@ -98,7 +100,7 @@ public class SlidingBoard extends Board {
     public boolean isSolved() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (solved[i][j] != grid[i][j]) {
+                if (solved[i][j].getValue() != grid[i][j].getValue()) {
                     return false; 
                 }
             }
@@ -107,34 +109,41 @@ public class SlidingBoard extends Board {
         return true;
     }
 
+    // Board interface methods
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return cols;
+    }
+
+    public Tile getTile(int row, int column) {
+        if (row < 0 || row >= rows || column < 0 || column >= cols) {
+            return null;
+        }
+        return grid[row][column];
+    }
+
+    public Tile[][] getBoard() {
+        return grid;
+    }
+
+    public boolean neighbors(Tile a, Tile b) {
+        if (a == null || b == null) {
+            return false;
+        }
+
+        int rowDiff = Math.abs(a.getRow() - b.getRow());
+        int colDiff = Math.abs(a.getColumn() - b.getColumn());
+
+        // Neighbors if adjacent horizontally or vertically (not diagonally)
+        return (rowDiff == 1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
+    }
+
     // Print out the board
     public void printBoard() {
-        // Print top border
-        for (int j = 0; j < cols; j++) {
-            System.out.print("+---");
-        }
-        System.out.println("+");
-        
-        // Print each row
-        for (int i = 0; i < rows; i++) {
-            // Print cell values
-            for (int j = 0; j < cols; j++) {
-                System.out.print("| ");
-                if (grid[i][j] != 0) {
-                    System.out.print(grid[i][j]);
-                } else {
-                    System.out.print("_");
-                }
-                System.out.print(" ");
-            }
-            System.out.println("|");
-            
-            // Print horizontal border after each row
-            for (int j = 0; j < cols; j++) {
-                System.out.print("+---");
-            }
-            System.out.println("+");
-        }
+        output.printBoard(grid, rows, cols);
     }
 }
 

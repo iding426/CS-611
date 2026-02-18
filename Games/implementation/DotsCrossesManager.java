@@ -3,6 +3,7 @@
         - Win statistics
         - Print final stats
 */
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,11 +11,11 @@ public class DotsCrossesManager extends GameManager {
     private DotsCrossesBoard board;
     private Player player1;
     private Player player2;
-    private Input input;
-    private Output output;
+    private DotsAndCrossesInput input;
+    private DotsAndCrossesOutput output;
 
     private boolean p1Turn;
-    private final Set<String> directions = Set.of("Up", "Down", "Left", "Right");
+    private final Set<String> directions = new HashSet<>(Arrays.asList("Up", "Down", "Left", "Right"));
 
     public DotsCrossesManager() {
         board = null;
@@ -22,8 +23,8 @@ public class DotsCrossesManager extends GameManager {
         player2 = null;
         p1Turn = true;
 
-        input = new Input();
-        output = new Output();
+        input = new DotsAndCrossesInput();
+        output = new DotsAndCrossesOutput();
 
         System.out.println("\nPlayer 1");
         String name1 = input.getUsername();

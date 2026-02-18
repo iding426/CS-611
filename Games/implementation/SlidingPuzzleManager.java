@@ -1,83 +1,81 @@
-import java.util.Scanner;
-
 /*
     TODO:
         - Fill in Extended Methods
 */
 
-public class SlidingPuzzleManager {
+public class SlidingPuzzleManager extends GameManager {
     private SlidingBoard board;
-    private Scanner scanner;
+    private SlidingInput input;
+    private SlidingOutput output;
+    private boolean puzzleSolved;
 
     public SlidingPuzzleManager() {
-        scanner = new Scanner(System.in);
+        input = new SlidingInput();
+        output = new SlidingOutput();
+        puzzleSolved = false;
     }
 
     // High Level Control
     public void start() {
+        initGame();
+        gameLoop();
+    }
+
+    // GameManager abstract methods
+    void initGame() {
         printWelcome();
         setupGame();
-        gameLoop();
+    }
+
+    boolean gameEnd() {
+        return puzzleSolved;
+    }
+
+    Player getWinner() {
+        // Sliding puzzle is a single-player game, so no winner concept
+        return null;
     }
 
     // Welcome
     private void printWelcome() {
-        System.out.println("Welcome to the Sliding Puzzle Game!");
-        System.out.println("Try to order the tiles from least to greatest.");
+        output.printWelcome();
     }
 
     // Setup
     private void setupGame() {
-        int rows = promptForDimension("rows");
-        int cols = promptForDimension("columns");
+        int rows = input.getDimension("rows");
+        int cols = input.getDimension("columns");
         board = new SlidingBoard(rows, cols);
         
-        System.out.println("Board Created!");
+        output.printBoardCreated();
         board.printBoard();
 
-        System.out.println("Shuffling!");
+        output.printShuffling();
         board.shuffle();
     }
 
-    // Get each dimension
-    private int promptForDimension(String dimensionName) {
-        int value = 0;
-        while (value <= 0) {
-            System.out.print("Enter number of " + dimensionName + ": ");
-            if (scanner.hasNextInt()) {
-                value = scanner.nextInt();
-                if (value <= 1) {
-                    System.out.println("Value must be at least 2.");
-                }
-            } else {
-                System.out.println("Please enter a valid integer.");
-                scanner.next(); // discard invalid input
-            }
-        }
-        return value;
-    }
+
 
     // Loop to play the game
-    private void gameLoop() {
-        while (true) {
+    void gameLoop() {
+        while (!gameEnd()) {
             board.printBoard();
 
             if (board.isSolved()) {
-                System.out.println("Puzzle solved!");
+                output.printPuzzleSolved();
+                puzzleSolved = true;
                 break;
             }
 
-            System.out.println("Enter the row and column of the tile to slide (or -1 to quit):");
-
-            int r = scanner.nextInt(); 
+            int r = input.getRowToSlide();
 
             // User wants to quit
             if (r == -1) {
-                System.out.println("Goodbye!");
+                output.printGoodbye();
                 break;
             }
 
-            int c = scanner.nextInt();
+            int c = input.getColumnToSlide();
 
             boolean valid = false;
             for (int[] move : board.availableMoves()) {
@@ -89,8 +87,9 @@ public class SlidingPuzzleManager {
 
             if (valid) {
                 board.slide(r, c);
+                moveCount++;
             } else {
-                System.out.println("Invalid move. Try again.");
+                output.printInvalidMove();
             }
         }
     }

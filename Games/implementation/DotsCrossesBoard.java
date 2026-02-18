@@ -6,12 +6,12 @@ public class DotsCrossesBoard implements Board {
 
     private Tile[][] board;
     private HashMap<Integer, Tile> tileMap;
-    private Output output;
+    private DotsAndCrossesOutput output;
 
     public DotsCrossesBoard(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.output = new Output();
+        this.output = new DotsAndCrossesOutput();
 
         board = new Tile[rows][cols];
         tileMap = new HashMap<>();
