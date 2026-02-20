@@ -26,12 +26,13 @@ public class SlidingInput extends Input {
         return value;
     }
 
-    public int getRowToSlide() {
-        System.out.println("Enter the row and column of the tile to slide (or -1 to quit):");
-        return scanner.nextInt();
-    }
-
-    public int getColumnToSlide() {
+    public int getTileToSlide() {
+        System.out.print("Enter the number of the tile you want to move (or -1 to quit): ");
+        while (!scanner.hasNextInt()) {
+            System.out.println("Invalid input. Please enter a number.");
+            scanner.next(); // discard invalid input
+            System.out.print("Enter the number of the tile you want to move (or -1 to quit): ");
+        }
         return scanner.nextInt();
     }
 }

@@ -87,6 +87,46 @@ public class SlidingBoard implements Board {
         }
 
         return positions;
+    }
+
+    // Find the position of a tile by its value
+    public int[] getTilePosition(int tileValue) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j].getValue() == tileValue) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return null; // Tile not found
+    }
+
+    // Check if a tile can be moved (is adjacent to empty space)
+    public boolean canMoveTile(int tileValue) {
+        int[] pos = getTilePosition(tileValue);
+        if (pos == null) {
+            return false;
+        }
+
+        int tileRow = pos[0];
+        int tileCol = pos[1];
+
+        // Check if tile is adjacent to empty space
+        int rowDiff = Math.abs(tileRow - emptyRow);
+        int colDiff = Math.abs(tileCol - emptyCol);
+
+        return (rowDiff == 1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
+    }
+
+    // Slide a tile by its value
+    public boolean slideTile(int tileValue) {
+        if (!canMoveTile(tileValue)) {
+            return false;
+        }
+
+        int[] pos = getTilePosition(tileValue);
+        slide(pos[0], pos[1]);
+        return true;
     } 
 
     private boolean validSpace(int r, int c) {

@@ -67,26 +67,22 @@ public class SlidingPuzzleManager extends GameManager {
                 break;
             }
 
-            int r = input.getRowToSlide();
+            int tileNumber = input.getTileToSlide();
 
             // User wants to quit
-            if (r == -1) {
+            if (tileNumber == -1) {
                 output.printGoodbye();
                 break;
             }
 
-            int c = input.getColumnToSlide();
-
-            boolean valid = false;
-            for (int[] move : board.availableMoves()) {
-                if (move[0] == r && move[1] == c) {
-                    valid = true;
-                    break;
-                }
+            // Check if tile exists
+            if (board.getTilePosition(tileNumber) == null) {
+                output.printTileNotFound();
+                continue;
             }
 
-            if (valid) {
-                board.slide(r, c);
+            // Try to move the tile
+            if (board.slideTile(tileNumber)) {
                 moveCount++;
             } else {
                 output.printInvalidMove();

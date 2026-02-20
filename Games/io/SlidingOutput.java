@@ -48,6 +48,10 @@ public class SlidingOutput extends Output {
     }
 
     public void printInvalidMove() {
-        System.out.println("Invalid move. Try again.");
+        System.out.println("Invalid move. That tile cannot be moved.");
+    }
+
+    public void printTileNotFound() {
+        System.out.println("That tile number does not exist on the board.");
     }
 }
