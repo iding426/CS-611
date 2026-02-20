@@ -7,12 +7,6 @@ import classes.Board;
 import classes.Tile;
 import io.SlidingOutput;
 
-/*
-    TODO:
-        - Sliding Game Tile Class
-        - Fill in Extended Methods
-*/
-
 public class SlidingBoard implements Board {
     private int rows;
     private int cols;
