@@ -60,6 +60,7 @@ public class SlidingBoard implements Board {
         }
     }
 
+    // Slide a tile
     public void slide(int r, int c) {
         grid[emptyRow][emptyCol].setValue(grid[r][c].getValue());
         grid[r][c].setValue(0);
@@ -67,6 +68,7 @@ public class SlidingBoard implements Board {
         emptyCol = c;
     }
 
+    // Get the list of legal moves
     public List<int[]> availableMoves() {
         int[][] directions = {{-1,0},{0,-1},{1,0},{0,1}};
 
@@ -128,6 +130,7 @@ public class SlidingBoard implements Board {
         return true;
     } 
 
+    // Check if a square is within the bounds of the board
     private boolean validSpace(int r, int c) {
         if (r < 0 || r >= this.rows || c < 0 || c >= this.cols) {
             return false;
@@ -136,6 +139,7 @@ public class SlidingBoard implements Board {
         return true;
     }
 
+    // Check if the board is in the solved state
     public boolean isSolved() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {

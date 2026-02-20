@@ -87,6 +87,7 @@ public class DotsCrossesBoard implements Board {
         return false;
     }
 
+    // Mark an edge on the border of the board
     public boolean markBorder(DotsCrossesTile tile, String direction, Player p) {
         direction = direction.toLowerCase();
         boolean wasOwned = tile.getOwner() != null;
@@ -134,6 +135,7 @@ public class DotsCrossesBoard implements Board {
         return !wasOwned && isNowOwned;
     }
 
+    // Get the neighboring tile in a specific direction (up, down, left, right)
     public DotsCrossesTile getNeighbor(DotsCrossesTile tile, String direction) {
         int row = tile.getRow();
         int col = tile.getColumn();
@@ -152,6 +154,7 @@ public class DotsCrossesBoard implements Board {
         }
     }
 
+    // Check if the board is filled
     public boolean boardFilled() {
         boolean filled = true;
 
@@ -170,6 +173,7 @@ public class DotsCrossesBoard implements Board {
         return filled;
     }
 
+    // Get the winner
     public Player getWinner() {
         HashMap<Player, Integer> playerScores = new HashMap<>();
 

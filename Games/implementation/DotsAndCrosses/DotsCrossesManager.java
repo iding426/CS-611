@@ -1,10 +1,5 @@
 package implementation.DotsAndCrosses;
 
-/*
-    TODO:
-        - Win statistics
-        - Print final stats
-*/
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,6 +37,7 @@ public class DotsCrossesManager extends GameManager {
         player2 = new DotsAndCrossesPlayer(name2);
     }
 
+    // Allow replayability 
     public void playWithReplay() {
         boolean keepPlaying = true;
         while (keepPlaying) {
@@ -71,6 +67,7 @@ public class DotsCrossesManager extends GameManager {
         }
     }
 
+    // Reset state
     private void resetForNewGame() {
         board = null;
         player1.resetSquaresOwned();
@@ -85,6 +82,7 @@ public class DotsCrossesManager extends GameManager {
         System.out.println("======================================");
     }
 
+    // Count how many squares each player owns
     private void updateSquaresOwned() {
         player1.resetSquaresOwned();
         player2.resetSquaresOwned();

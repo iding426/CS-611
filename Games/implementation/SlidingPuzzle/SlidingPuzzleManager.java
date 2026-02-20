@@ -56,7 +56,8 @@ public class SlidingPuzzleManager extends GameManager {
             }
         }
     }
-
+    
+    // Start a new game
     private void resetForNewGame() {
         puzzleSolved = false;
         player.resetCurrentGameMoves();
@@ -104,8 +105,6 @@ public class SlidingPuzzleManager extends GameManager {
         output.printShuffling();
         board.shuffle();
     }
-
-
 
     // Loop to play the game
     @Override
