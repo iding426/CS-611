@@ -94,3 +94,183 @@ Then select option 1 for Dots and Crosses.
 
 
 ## Input/Output Example
+=================================
+   Welcome to the Game Suite!
+=================================
+
+Please select a game to play:
+1. Dots and Crosses
+2. Sliding Puzzle
+3. Exit
+Enter your choice: 1
+
+Player 1
+Enter your username: ian
+
+Player 2
+Enter your username: ding
+Welcome to Dots and Crosses!
+Enter the number of rows you want to play with: 2
+Enter the number of columns you want to play with: 2
+
+Starting board:
+Current Board State!
++   +   +
+  1   2
++   +   +
+  3   4
++   +   +
+ian = X, ding = O
+
+How to play:
+- Take turns selecting edges between tiles
+- Complete all 4 edges of a square to claim it
+- The player with the most squares wins!
+
+ian, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 1
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Up
+Current Board State!
++---+   +
+  1   2
++   +   +
+  3   4
++   +   +
+ding, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 2
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Up
+Current Board State!
++---+---+
+  1   2
++   +   +
+  3   4
++   +   +
+ian, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 2
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Right
+Current Board State!
++---+---+
+  1   2 |
++   +   +
+  3   4
++   +   +
+ding, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 2
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Down
+Current Board State!
++---+---+
+  1   2 |
++   +---+
+  3   4
++   +   +
+ian, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 1
+Enter the direction of the edge you want to select (Up, Down, Left, Right): DOwn
+Invalid move! Please try again.
+ian, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 1
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Down
+Current Board State!
++---+---+
+  1   2 |
++---+---+
+  3   4
++   +   +
+ding, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 1
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Left
+Current Board State!
++---+---+
+| 1   2 |
++---+---+
+  3   4
++   +   +
+ian, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 1
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Right
+Current Board State!
++---+---+
+| X | X |
++---+---+
+  3   4
++   +   +
+ian captured a box! Take another turn.
+ian, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 3
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Left 
+Current Board State!
++---+---+
+| X | X |
++---+---+
+| 3   4
++   +   +
+ding, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 3
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Down
+Current Board State!
++---+---+
+| X | X |
++---+---+
+| 3   4
++---+   +
+ian, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 3
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Right
+Current Board State!
++---+---+
+| X | X |
++---+---+
+| X | 4
++---+   +
+ian captured a box! Take another turn.
+ian, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 4
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Down
+Current Board State!
++---+---+
+| X | X |
++---+---+
+| X | 4
++---+---+
+ding, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 4
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Right
+Current Board State!
++---+---+
+| X | X |
++---+---+
+| X | O |
++---+---+
+ding captured a box! Take another turn.
+Congratulations ian! You win!
+
+========== Final Statistics ==========
+
+--- ian's Stats ---
+Total Wins: 1
+Squares Owned in Current Game: 3
+
+--- ding's Stats ---
+Total Wins: 0
+Squares Owned in Current Game: 1
+======================================
+
+--- Game Over Menu ---
+1. Replay with same players
+2. Return to main menu
+3. Exit game
+Enter your choice: 3
+Thanks for playing!
