@@ -1,109 +1,297 @@
-﻿Guide to Readme.txt or Readme.md
-Required sections: Header, Files, Notes, How to compile and run, I/O Example
-
-
-# CS611-Assignment 1
-## Sliding Game
+# CS611-Assignment 2
+## Game Suite - Top Level Management
 ---------------------------------------------------------------------------
 - Name: Ian Ding
 - Email: iding918@bu.edu
 - Student ID: U66239752
 
 
-## Files
+## Project Overview
 ---------------------------------------------------------------------------
 
-Runner.java: This is a wrapper that is used to create an instance of our game and start it.
-Game.java: This class handles reading and writing to and from the terminal for the game. It also controls the main game loop.
-Board.java: This class implements the board object. It handles the maintence of the game state including verifying a win, finding legal moves, making slides, and setting up the 
-            game board. 
+This is a game suite containing multiple games built with extensible object-oriented design. The project uses abstract classes and interfaces to provide a framework that can be extended for any board-based game.
+
+**Current Games:**
+1. **Dots and Crosses** - A two-player strategy game where players claim squares by completing edges
+2. **Sliding Puzzle** - A single-player puzzle game where tiles must be arranged in order
+
+
+## Project Structure
+---------------------------------------------------------------------------
+
+```
+Games/
+├── classes/              # Abstract base classes and interfaces
+│   ├── Board.java
+│   ├── GameManager.java
+│   └── Tile.java
+├── implementation/       # Game implementations and base classes
+│   ├── Driver.java      # Main entry point
+│   ├── Player.java      # Base player class
+│   ├── DotsAndCrosses/  # Dots and Crosses game implementation
+│   └── SlidingPuzzle/   # Sliding Puzzle game implementation
+├── io/                   # Input/Output classes
+│   ├── Input.java       # Abstract input handler
+│   ├── Output.java      # Abstract output handler
+│   ├── DriverInput.java
+│   ├── DriverOutput.java
+│   ├── DotsAndCrossesInput.java
+│   ├── DotsAndCrossesOutput.java
+│   ├── SlidingInput.java
+│   └── SlidingOutput.java
+├── bin/                  # Compiled class files
+├── .vscode/             # VS Code configuration
+├── README               # This file
+└── run.sh              # Compilation and execution script
+```
+
+
+## Core Abstract Classes and Interfaces
+---------------------------------------------------------------------------
+
+### classes/GameManager.java
+**Purpose**: Abstract base class for all game managers/controllers
+
+**Key Features:**
+- Defines the standard game lifecycle methods
+- Tracks move count across all games
+- Provides framework for game initialization, game loop, and win detection
+
+**Abstract Methods:**
+- `initGame()` - Initialize game state (board, players, etc.)
+- `gameLoop()` - Main game loop handling turns and moves
+- `gameEnd()` - Check if the game has ended
+- `getWinner()` - Return the winning player (or null for draw/single-player)
+
+**Protected Fields:**
+- `moveCount` - Tracks total moves in the game
+
+**Usage**: Extended by `DotsCrossesManager` and `SlidingPuzzleManager`
+
+---
+
+### classes/Tile.java
+**Purpose**: Abstract base class representing a single tile/square on a game board
+
+**Key Features:**
+- Stores position (row and column indices)
+- Tracks tile ownership by players
+- Provides common tile functionality
+
+**Fields:**
+- `rowIndex` - Row position on the board (final)
+- `colIndex` - Column position on the board (final)
+- `owner` - Player who owns this tile (can be null)
+
+**Methods:**
+- `getRow()` - Get row index
+- `getColumn()` - Get column index
+- `getOwner()` - Get owner player
+- `setOwner(Player p)` - Set tile owner
+
+**Usage**: Extended by `DotsCrossesTile` and `SlidingTile`
+
+---
+
+### classes/Board.java
+**Purpose**: Interface defining standard board operations
+
+**Required Methods:**
+- `getRows()` - Return number of rows
+- `getColumns()` - Return number of columns
+- `getTile(int row, int column)` - Get specific tile
+- `getBoard()` - Get entire board as 2D array
+- `neighbors(Tile a, Tile b)` - Check if two tiles are adjacent
+
+**Usage**: Implemented by `DotsCrossesBoard` and `SlidingBoard`
+
+---
+
+### io/Input.java
+**Purpose**: Abstract base class for handling user input
+
+**Key Features:**
+- Manages a shared Scanner instance
+- Provides framework for game-specific input methods
+
+**Abstract Methods:**
+- `getUsername()` - Get player username (implemented differently per game)
+
+**Usage**: Extended by `DriverInput`, `DotsAndCrossesInput`, and `SlidingInput`
+
+---
+
+### io/Output.java
+**Purpose**: Abstract base class for handling output/display
+
+**Key Features:**
+- Provides framework for game-specific output methods
+
+**Abstract Methods:**
+- `printWelcome()` - Display welcome message
+- `printGoodbye()` - Display goodbye message
+
+**Usage**: Extended by `DriverOutput`, `DotsAndCrossesOutput`, and `SlidingOutput`
+
+
+## Base Classes
+---------------------------------------------------------------------------
+
+### implementation/Player.java
+**Purpose**: Base class for player objects
+
+**Key Features:**
+- Stores player username
+- Tracks move count
+- Can be extended for game-specific player statistics
+
+**Fields:**
+- `username` - Player's name
+- `moveCount` - Number of moves made
+
+**Methods:**
+- `getUsername()` - Get player name
+- `getMoveCount()` - Get move count
+- `incrementMoveCount()` - Increment moves
+- `resetMoveCount()` - Reset moves to 0
+
+**Extended By:**
+- `DotsAndCrossesPlayer` - Adds win tracking and squares owned
+- `SlidingPlayer` - Adds win tracking and current game moves
+
+
+## Driver Class
+---------------------------------------------------------------------------
+
+### implementation/Driver.java
+**Purpose**: Main entry point for the game suite
+
+**Responsibilities:**
+- Display main menu with game choices
+- Create and launch game managers for selected games
+- Handle top-level navigation between games
+- Provide option to play multiple games or exit
+
+**Key Methods:**
+- `main(String[] args)` - Program entry point
+- `playDotsAndCrosses()` - Launch Dots and Crosses game
+- `playSlidingPuzzle()` - Launch Sliding Puzzle game
+
+**Menu Options:**
+1. Dots and Crosses (calls `DotsCrossesManager.playWithReplay()`)
+2. Sliding Puzzle (calls `SlidingPuzzleManager.start()`)
+3. Exit
+
+**Design Pattern**: Uses Factory pattern to instantiate appropriate game managers
+
+
+## Package Organization
+---------------------------------------------------------------------------
+
+### classes Package
+Contains abstract base classes and interfaces that define the game framework. These are game-agnostic and can be reused for any board game.
+
+### implementation Package
+Contains concrete implementations of games. Each game has its own sub-package:
+- **implementation.DotsAndCrosses** - Two-player edge-claiming game
+- **implementation.SlidingPuzzle** - Single-player tile-sliding puzzle
+
+### io Package
+Contains all input/output handling classes. Separates I/O logic from game logic for better maintainability and testability.
+
+
+## Design Patterns and Principles
+---------------------------------------------------------------------------
+
+### Object-Oriented Design Principles Applied:
+
+1. **Inheritance**: Abstract classes (`GameManager`, `Tile`, `Input`, `Output`, `Player`) define common behavior that concrete classes extend
+
+2. **Polymorphism**: Game managers can be treated uniformly through the `GameManager` interface, allowing the Driver to work with any game
+
+3. **Encapsulation**: Game logic is separated from I/O logic; each package has clear responsibilities
+
+4. **Interface Segregation**: The `Board` interface defines only essential board operations
+
+5. **Open/Closed Principle**: New games can be added by extending abstract classes without modifying existing code
+
+6. **Single Responsibility**: Each class has one clear purpose (e.g., `Board` manages tiles, `Input` handles user input)
+
+
+## How to Compile and Run
+---------------------------------------------------------------------------
+
+### Compilation
+From the Games directory:
+
+```bash
+javac -d bin classes/*.java implementation/*.java implementation/DotsAndCrosses/*.java implementation/SlidingPuzzle/*.java io/*.java
+```
+
+This compiles all source files and places compiled `.class` files in the `bin/` directory while preserving package structure.
+
+### Execution
+From the Games directory:
+
+```bash
+java -cp bin implementation.Driver
+```
+
+### Using Shell Script (Linux/Mac)
+```bash
+chmod +x run.sh  # First time only
+./run.sh
+```
+
+The script automatically compiles and runs the program.
+
+
+## Adding New Games
+---------------------------------------------------------------------------
+
+To add a new game to the suite:
+
+1. **Create a package** under `implementation/` (e.g., `implementation/NewGame/`)
+
+2. **Extend GameManager**: Create a manager class extending `classes.GameManager`
+   - Implement: `initGame()`, `gameLoop()`, `gameEnd()`, `getWinner()`
+
+3. **Extend Tile**: Create a tile class extending `classes.Tile`
+   - Add game-specific tile properties and methods
+
+4. **Implement Board**: Create a board class implementing `classes.Board`
+   - Implement all required board operations
+
+5. **Extend Player** (optional): Create a player class extending `implementation.Player`
+   - Add game-specific statistics tracking
+
+6. **Create I/O classes**: Extend `io.Input` and `io.Output`
+   - Implement game-specific input/output methods
+
+7. **Update Driver**: Add menu option and method to launch your game
+
+8. **Update run.sh**: Add your package to the compilation command
 
 
 ## Notes
 ---------------------------------------------------------------------------
 
-1. All of the scrambles are solvable because they are generated how a board would be shuffled in real life. With a random number of random slides.
-2. Map can be extended to 3-D
+### Statistics Tracking
+Both games implement replay functionality that tracks:
+- Player wins across multiple games
+- Game-specific statistics (squares owned, moves made)
+- Stats persist when replaying with same players
+- Stats reset when returning to main menu
 
-## How to compile and run
----------------------------------------------------------------------------
+### Package-Based Architecture
+The project uses Java packages to organize code:
+- Packages match folder structure
+- Import statements specify cross-package dependencies
+- Compilation with `-d bin` preserves package structure in output
 
-1. Navigate to the directory "Sliding Game" after unzipping the files
-2. Run the following instructions:
-javac *.java
-java Runner
-
-## Input/Output Example
----------------------------------------------------------------------------
-Output:
-Welcome to the Sliding Puzzle Game!
-Try to order the tiles from least to greatest.
-Enter number of rows: 
-
-Input:
-2
-
-Output:
-Enter number of columns: 
-
-Input:
-2
-
-Output:
-Board Created!
-+---+---+
-| 1 | 2 |
-+---+---+
-| 3 | _ |
-+---+---+
-Shuffling!
-+---+---+
-| 2 | 3 |
-+---+---+
-| 1 | _ |
-+---+---+
-Enter the row and column of the tile to slide (or -1 to quit):
-
-Input:
-0 1
-
-Output:
-+---+---+
-| 2 | _ |
-+---+---+
-| 1 | 3 |
-+---+---+
-Enter the row and column of the tile to slide (or -1 to quit):
-
-Input:
-0 0
-
-Output:
-+---+---+
-| _ | 2 |
-+---+---+
-| 1 | 3 |
-+---+---+
-Enter the row and column of the tile to slide (or -1 to quit):
-
-Input:
-1 0
-
-Output:
-+---+---+
-| 1 | 2 |
-+---+---+
-| _ | 3 |
-+---+---+
-Enter the row and column of the tile to slide (or -1 to quit):
-
-Input:
-1 1
-
-Output:
-+---+---+
-| 1 | 2 |
-+---+---+
-| 3 | _ |
-+---+---+
-Puzzle solved!
+### Extensibility
+The abstract class framework makes it easy to:
+- Add new board-based games
+- Implement different player types
+- Create custom I/O handlers
+- Extend functionality without breaking existing code

@@ -1,0 +1,215 @@
+﻿# CS611-Assignment 1
+## Sliding Puzzle Game
+---------------------------------------------------------------------------
+- Name: Ian Ding
+- Email: iding918@bu.edu
+- Student ID: U66239752
+
+
+## Files
+---------------------------------------------------------------------------
+
+### Sliding Puzzle Package (implementation/SlidingPuzzle/)
+
+**SlidingPuzzleManager.java**: 
+- Main game controller that extends GameManager
+- Manages game initialization, setup, and game loop
+- Handles replay functionality with statistics tracking
+- Tracks player moves and win statistics
+- Implements single-player puzzle solving gameplay
+
+**SlidingBoard.java**: 
+- Represents the game board with a grid of sliding tiles
+- Implements board shuffling using random valid moves (ensures solvability)
+- Handles tile sliding logic and validates moves
+- Checks for puzzle completion (solved state)
+- Tracks empty tile position for legal move detection
+
+**SlidingTile.java**: 
+- Represents individual tiles on the board
+- Stores tile value (0 represents empty space)
+- Tracks position (row and column)
+- Extends the base Tile class from the classes package
+
+**SlidingPlayer.java**: 
+- Specialized player class for Sliding Puzzle
+- Tracks total wins across multiple games
+- Tracks moves in the current game
+- Displays player statistics
+- Extends the base Player class
+
+### Related Files
+
+**io/SlidingInput.java**: Handles all user input for the game
+**io/SlidingOutput.java**: Handles all output and display for the game
+
+
+## Notes
+---------------------------------------------------------------------------
+
+### Game Rules
+- Single-player puzzle game
+- Tiles are numbered 1 through (rows × cols - 1)
+- One space is empty (represented by 0 or blank)
+- Goal: Arrange tiles in order from 1 to (rows × cols - 1) with empty space at bottom-right
+
+### Features
+- **Solvable Puzzles**: All puzzles are guaranteed solvable because they're generated using random legal moves from the solved state
+- **Statistics Tracking**: Tracks total wins and moves in current game
+- **Replay System**: After each game, players can:
+  - Play again (stats persist)
+  - Return to main menu (new player created)
+  - Exit the game
+- **Dynamic Board Size**: Players can choose custom board dimensions (minimum 2x2)
+- **Visual Board**: Clear ASCII representation with numbered tiles
+- **Move Counter**: Tracks and displays total moves made
+
+### Design Decisions
+- Package structure separates game-specific classes (SlidingPuzzle package)
+- Specialized player class tracks game-specific statistics (wins and moves)
+- Board shuffling uses valid slides to guarantee solvability
+- Single-player game design extending the multi-player GameManager framework
+- Tile-based input system (enter tile number to slide it)
+
+
+## How to compile and run
+---------------------------------------------------------------------------
+
+### Compilation
+From the Games directory, run:
+```bash
+javac -d bin classes/*.java implementation/*.java implementation/DotsAndCrosses/*.java implementation/SlidingPuzzle/*.java io/*.java
+```
+
+### Run
+From the Games directory, run:
+```bash
+java -cp bin implementation.Driver
+```
+
+Then select option 2 for Sliding Puzzle.
+
+### Using the shell script (Linux/Mac)
+```bash
+./run.sh
+```
+
+
+## Input/Output Example
+---------------------------------------------------------------------------
+
+### Game Start
+```
+=================================
+   Welcome to the Game Suite!   
+=================================
+
+--- Main Menu ---
+1. Dots and Crosses
+2. Sliding Puzzle
+3. Exit
+Enter your choice: 2
+
+Enter player name:
+Enter your username: Alex
+
+Welcome to the Sliding Puzzle Game!
+Try to order the tiles from least to greatest.
+
+Enter number of rows: 3
+Enter number of columns: 3
+
+Board Created!
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 | 5 | 6 |
++---+---+---+
+| 7 | 8 |   |
++---+---+---+
+
+Shuffling!
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 | 5 |   |
++---+---+---+
+| 7 | 8 | 6 |
++---+---+---+
+```
+
+### During Gameplay
+```
+Enter the number of the tile you want to move (or -1 to quit): 6
+
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 | 5 | 6 |
++---+---+---+
+| 7 | 8 |   |
++---+---+---+
+
+Enter the number of the tile you want to move (or -1 to quit): 8
+
+Invalid move! Please try again.
+
+Enter the number of the tile you want to move (or -1 to quit): 5
+
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 |   | 6 |
++---+---+---+
+| 7 | 8 | 5 |
++---+---+---+
+```
+
+### Puzzle Solved
+```
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 | 5 | 6 |
++---+---+---+
+| 7 | 8 |   |
++---+---+---+
+
+Puzzle solved!
+Congratulations Alex! You solved the puzzle in 15 moves!
+
+========== Final Statistics ==========
+
+--- Alex's Stats ---
+Total Wins: 1
+Moves in Current Game: 15
+======================================
+
+--- Game Over Menu ---
+1. Play again
+2. Return to main menu
+3. Exit game
+Enter your choice: 1
+
+Starting new game...
+```
+
+### Quitting Mid-Game
+```
+Enter the number of the tile you want to move (or -1 to quit): -1
+
+Goodbye!
+
+========== Final Statistics ==========
+
+--- Alex's Stats ---
+Total Wins: 0
+Moves in Current Game: 8
+======================================
+
+--- Game Over Menu ---
+1. Play again
+2. Return to main menu
+3. Exit game
+Enter your choice: 2
+```

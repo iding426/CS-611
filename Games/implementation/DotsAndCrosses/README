@@ -1,0 +1,96 @@
+# CS611-Assignment 2
+## Dots and Crosses Game
+---------------------------------------------------------------------------
+- Name: Ian Ding
+- Email: iding918@bu.edu
+- Student ID: U66239752
+
+
+## Files
+---------------------------------------------------------------------------
+
+### Dots and Crosses Package (implementation/DotsAndCrosses/)
+
+**DotsCrossesManager.java**: 
+- Main game controller that extends GameManager
+- Manages game initialization, game loop, and player turns
+- Handles replay functionality with statistics tracking
+- Implements the rule where capturing a box grants an extra turn
+- Tracks player statistics across multiple games
+
+**DotsCrossesBoard.java**: 
+- Represents the game board with a grid of tiles
+- Manages edge marking between tiles and border edges
+- Implements neighbor checking and board filling detection
+- Determines winners by counting captured squares
+- Returns boolean values to indicate if a box was captured
+
+**DotsCrossesTile.java**: 
+- Represents individual tiles/squares on the board
+- Tracks edge ownership (left, right, top, bottom)
+- Automatically sets tile ownership when all 4 edges are complete
+- Extends the base Tile class from the classes package
+
+**DotsAndCrossesPlayer.java**: 
+- Specialized player class for Dots and Crosses
+- Tracks total wins across multiple games
+- Tracks squares owned in the current game
+- Displays player statistics
+- Extends the base Player class
+
+### Related Files
+
+**io/DotsAndCrossesInput.java**: Handles all user input for the game
+**io/DotsAndCrossesOutput.java**: Handles all output and display for the game
+
+
+## Notes
+---------------------------------------------------------------------------
+
+### Game Rules
+- Players take turns selecting edges between tiles
+- When a player completes all 4 edges of a square, they capture it
+- **Special Rule**: When a player captures a box, they get another turn immediately
+- The player with the most captured squares at the end wins
+- If players have equal squares, the game is a draw
+
+### Features
+- **Statistics Tracking**: Players' total wins and current game squares are tracked
+- **Replay System**: After each game, players can:
+  - Replay with the same players (stats persist)
+  - Return to main menu (new players created)
+  - Exit the game
+- **Dynamic Board Size**: Players can choose custom board dimensions
+- **Visual Board**: Clear ASCII representation with player symbols (X and O)
+
+### Design Decisions
+- Package structure separates game-specific classes (DotsAndCrosses package)
+- Specialized player class tracks game-specific statistics
+- Board methods return booleans to indicate box capture for turn logic
+- Automatic tile ownership detection when all edges are marked
+
+
+## How to compile and run
+---------------------------------------------------------------------------
+
+### Compilation
+From the Games directory, run:
+```bash
+javac -d bin classes/*.java implementation/*.java implementation/DotsAndCrosses/*.java implementation/SlidingPuzzle/*.java io/*.java
+```
+
+### Run
+From the Games directory, run:
+```bash
+java -cp bin implementation.Driver
+```
+
+Then select option 1 for Dots and Crosses.
+
+### Using the shell script (Linux/Mac)
+```bash
+./run.sh
+```
+
+
+## Input/Output Example
