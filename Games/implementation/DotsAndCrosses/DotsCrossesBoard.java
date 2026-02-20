@@ -68,20 +68,33 @@ public class DotsCrossesBoard implements Board {
     }
 
     // Mark an edge between two tiles
-    public void markEdge(DotsCrossesTile a, DotsCrossesTile b, Player p) {
+    public boolean markEdge(DotsCrossesTile a, DotsCrossesTile b, Player p) {
         if (neighbors(a, b)) {
+            // Check if tiles were already owned before marking
+            boolean aWasOwned = a.getOwner() != null;
+            boolean bWasOwned = b.getOwner() != null;
+            
             a.setEdgeOwner(b, p);
             b.setEdgeOwner(a, p);
+            
+            // Check if any tiles became owned after marking
+            boolean aIsNowOwned = a.getOwner() != null;
+            boolean bIsNowOwned = b.getOwner() != null;
+            
+            // Return true if at least one box was captured
+            return (!aWasOwned && aIsNowOwned) || (!bWasOwned && bIsNowOwned);
         }
+        return false;
     }
 
-    public void markBorder(DotsCrossesTile tile, String direction, Player p) {
+    public boolean markBorder(DotsCrossesTile tile, String direction, Player p) {
         direction = direction.toLowerCase();
+        boolean wasOwned = tile.getOwner() != null;
         
         if (direction.equals("up")) {
             if (tile.getTopEdge() != null) {
                 output.printInvalidMove();
-                return;
+                return false;
             }
             if (tile.getRow() == 0) {
                 // It's a border edge
@@ -90,7 +103,7 @@ public class DotsCrossesBoard implements Board {
         } else if (direction.equals("down")) {
             if (tile.getBottomEdge() != null) {
                 output.printInvalidMove();
-                return;
+                return false;
             }
             if (tile.getRow() == rows - 1) {
                 // It's a border edge
@@ -99,7 +112,7 @@ public class DotsCrossesBoard implements Board {
         } else if (direction.equals("left")) {
             if (tile.getLeftEdge() != null) {
                 output.printInvalidMove();
-                return;
+                return false;
             }
             if (tile.getColumn() == 0) {
                 // It's a border edge
@@ -108,13 +121,17 @@ public class DotsCrossesBoard implements Board {
         } else if (direction.equals("right")) {
             if (tile.getRightEdge() != null) {
                 output.printInvalidMove();
-                return;
+                return false;
             }
             if (tile.getColumn() == cols - 1) {
                 // It's a border edge
                 tile.setBorderEdge("right", p);
             }
         }
+        
+        // Check if the tile became owned after marking the border
+        boolean isNowOwned = tile.getOwner() != null;
+        return !wasOwned && isNowOwned;
     }
 
     public DotsCrossesTile getNeighbor(DotsCrossesTile tile, String direction) {

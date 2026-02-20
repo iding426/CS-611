@@ -34,4 +34,20 @@ public class DotsAndCrossesInput extends Input {
     public String getDirection() {
         return scanner.nextLine();
     }
+
+    public int getReplayChoice() {
+        System.out.println("\n--- Game Over Menu ---");
+        System.out.println("1. Replay with same players");
+        System.out.println("2. Return to main menu");
+        System.out.println("3. Exit game");
+        System.out.print("Enter your choice: ");
+        while (!scanner.hasNextInt()) {
+            System.out.println("Invalid input. Please enter a number.");
+            scanner.next();
+            System.out.print("Enter your choice: ");
+        }
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        return choice;
+    }
 }

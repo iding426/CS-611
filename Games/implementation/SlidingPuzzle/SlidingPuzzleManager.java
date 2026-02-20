@@ -15,17 +15,58 @@ public class SlidingPuzzleManager extends GameManager {
     private SlidingInput input;
     private SlidingOutput output;
     private boolean puzzleSolved;
+    private SlidingPlayer player;
 
     public SlidingPuzzleManager() {
         input = new SlidingInput();
         output = new SlidingOutput();
         puzzleSolved = false;
+        
+        System.out.println("\nEnter player name:");
+        String name = input.getUsername();
+        player = new SlidingPlayer(name);
     }
 
     // High Level Control
     public void start() {
-        initGame();
-        gameLoop();
+        boolean keepPlaying = true;
+        while (keepPlaying) {
+            initGame();
+            gameLoop();
+            
+            // Display final stats
+            displayFinalStats();
+            
+            int choice = input.getReplayChoice();
+            switch (choice) {
+                case 1: // Play again
+                    System.out.println("\nStarting new game...");
+                    resetForNewGame();
+                    break;
+                case 2: // Return to main menu
+                    keepPlaying = false;
+                    break;
+                case 3: // Exit
+                    System.out.println("Thanks for playing!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Returning to main menu.");
+                    keepPlaying = false;
+            }
+        }
+    }
+
+    private void resetForNewGame() {
+        puzzleSolved = false;
+        player.resetCurrentGameMoves();
+        board = null;
+    }
+
+    private void displayFinalStats() {
+        System.out.println("\n========== Final Statistics ==========");
+        player.displayStats();
+        System.out.println("======================================");
     }
 
     // GameManager abstract methods
@@ -74,7 +115,9 @@ public class SlidingPuzzleManager extends GameManager {
 
             if (board.isSolved()) {
                 output.printPuzzleSolved();
+                System.out.println("Congratulations " + player.getUsername() + "! You solved the puzzle in " + player.getCurrentGameMoves() + " moves!");
                 puzzleSolved = true;
+                player.incrementWins();
                 break;
             }
 
@@ -95,6 +138,7 @@ public class SlidingPuzzleManager extends GameManager {
             // Try to move the tile
             if (board.slideTile(tileNumber)) {
                 moveCount++;
+                player.incrementCurrentGameMoves();
             } else {
                 output.printInvalidMove();
             }

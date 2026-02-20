@@ -5,11 +5,6 @@ import implementation.SlidingPuzzle.SlidingPuzzleManager;
 import io.DriverInput;
 import io.DriverOutput;
 
-/*
-    TODO:
-        - Player statistics for multiple games
-*/
-
 public class Driver {
     private static DriverInput input;
     private static DriverOutput output;
@@ -50,8 +45,7 @@ public class Driver {
 
     private static void playDotsAndCrosses() {
         DotsCrossesManager manager = new DotsCrossesManager();
-        manager.initGame();
-        manager.gameLoop();
+        manager.playWithReplay();
     }
 
     private static void playSlidingPuzzle() {

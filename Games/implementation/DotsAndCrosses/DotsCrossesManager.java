@@ -16,8 +16,8 @@ import io.DotsAndCrossesOutput;
 
 public class DotsCrossesManager extends GameManager {
     private DotsCrossesBoard board;
-    private Player player1;
-    private Player player2;
+    private DotsAndCrossesPlayer player1;
+    private DotsAndCrossesPlayer player2;
     private DotsAndCrossesInput input;
     private DotsAndCrossesOutput output;
 
@@ -35,11 +35,73 @@ public class DotsCrossesManager extends GameManager {
 
         System.out.println("\nPlayer 1");
         String name1 = input.getUsername();
-        player1 = new Player(name1);
+        player1 = new DotsAndCrossesPlayer(name1);
         
         System.out.println("\nPlayer 2");
         String name2 = input.getUsername();
-        player2 = new Player(name2);
+        player2 = new DotsAndCrossesPlayer(name2);
+    }
+
+    public void playWithReplay() {
+        boolean keepPlaying = true;
+        while (keepPlaying) {
+            initGame();
+            gameLoop();
+            
+            // Display final stats
+            displayFinalStats();
+            
+            int choice = input.getReplayChoice();
+            switch (choice) {
+                case 1: // Replay with same players
+                    System.out.println("\nStarting new game with same players...");
+                    resetForNewGame();
+                    break;
+                case 2: // Return to main menu
+                    keepPlaying = false;
+                    break;
+                case 3: // Exit
+                    System.out.println("Thanks for playing!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Returning to main menu.");
+                    keepPlaying = false;
+            }
+        }
+    }
+
+    private void resetForNewGame() {
+        board = null;
+        player1.resetSquaresOwned();
+        player2.resetSquaresOwned();
+        p1Turn = true;
+    }
+
+    private void displayFinalStats() {
+        System.out.println("\n========== Final Statistics ==========");
+        player1.displayStats();
+        player2.displayStats();
+        System.out.println("======================================");
+    }
+
+    private void updateSquaresOwned() {
+        player1.resetSquaresOwned();
+        player2.resetSquaresOwned();
+        
+        Tile[][] boardGrid = board.getBoard();
+        for (Tile[] row : boardGrid) {
+            for (Tile tile : row) {
+                Player owner = tile.getOwner();
+                if (owner != null) {
+                    if (owner.equals(player1)) {
+                        player1.incrementSquaresOwned();
+                    } else if (owner.equals(player2)) {
+                        player2.incrementSquaresOwned();
+                    }
+                }
+            }
+        }
     }
 
     private void initBoard(int rows, int cols) {
@@ -69,13 +131,23 @@ public class DotsCrossesManager extends GameManager {
     @Override
     public void gameLoop() {
         while (true) {
+            // Update squares owned count
+            updateSquaresOwned();
+            
             if (gameEnd()) {
                 Player winner = getWinner();
                 if (winner != null) {
                     output.printWin(winner);
+                    if (winner.equals(player1)) {
+                        player1.incrementWins();
+                    } else {
+                        player2.incrementWins();
+                    }
                 } else {
                     output.printDraw();
                 }
+                // Final update of squares owned
+                updateSquaresOwned();
                 break;
             }
 
@@ -118,22 +190,27 @@ public class DotsCrossesManager extends GameManager {
 
             DotsCrossesTile tile2 = board.getNeighbor(tile1, direction.toLowerCase());
 
+            boolean boxCaptured = false;
             if (tile2 != null) {
                 if (tile1.getOwner() != null || tile2.getOwner() != null) {
                     output.printInvalidMove();
                     continue;
                 } else {
-                    
-                    board.markEdge(tile1, tile2, p);
-
-                    p1Turn = !p1Turn;
+                    boxCaptured = board.markEdge(tile1, tile2, p);
                 }
             } else {
                 // Border
-                board.markBorder(tile1, direction.toLowerCase(), p);
+                boxCaptured = board.markBorder(tile1, direction.toLowerCase(), p);
             }
 
             output.printBoard(getBoardString());
+            
+            // Only switch turns if no box was captured
+            if (!boxCaptured) {
+                p1Turn = !p1Turn;
+            } else {
+                System.out.println(p.getUsername() + " captured a box! Take another turn.");
+            }
         }
     }
 
