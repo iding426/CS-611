@@ -1,6 +1,11 @@
+package implementation.SlidingPuzzle;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import classes.Board;
+import classes.Tile;
+import io.SlidingOutput;
 
 /*
     TODO:

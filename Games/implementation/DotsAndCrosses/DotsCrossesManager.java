@@ -1,3 +1,5 @@
+package implementation.DotsAndCrosses;
+
 /*
     TODO:
         - Win statistics
@@ -6,6 +8,11 @@
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import classes.GameManager;
+import classes.Tile;
+import implementation.Player;
+import io.DotsAndCrossesInput;
+import io.DotsAndCrossesOutput;
 
 public class DotsCrossesManager extends GameManager {
     private DotsCrossesBoard board;

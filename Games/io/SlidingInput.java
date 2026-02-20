@@ -1,3 +1,5 @@
+package io;
+
 public class SlidingInput extends Input {
     public SlidingInput() {
         super();

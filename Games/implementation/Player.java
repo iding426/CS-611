@@ -1,10 +1,12 @@
+package implementation;
+
 /*
     TODO:
         - Separate Player class for each game
         - Track statistics
 */
 
-class Player {
+public class Player {
     String username;
     int moveCount;
 

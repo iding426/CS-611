@@ -1,3 +1,7 @@
+package io;
+
+import implementation.SlidingPuzzle.SlidingTile;
+
 public class SlidingOutput extends Output {
     @Override
     public void printWelcome() {

@@ -1,3 +1,7 @@
+package classes;
+
+import implementation.Player;
+
 public abstract class Tile {
     final int rowIndex;
     final int colIndex;

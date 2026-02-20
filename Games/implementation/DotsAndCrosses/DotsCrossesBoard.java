@@ -1,4 +1,10 @@
+package implementation.DotsAndCrosses;
+
 import java.util.HashMap;
+import classes.Board;
+import classes.Tile;
+import implementation.Player;
+import io.DotsAndCrossesOutput;
 
 public class DotsCrossesBoard implements Board {
     final int rows;

@@ -1,3 +1,10 @@
+package implementation.SlidingPuzzle;
+
+import classes.GameManager;
+import implementation.Player;
+import io.SlidingInput;
+import io.SlidingOutput;
+
 /*
     TODO:
         - Fill in Extended Methods
@@ -22,16 +29,19 @@ public class SlidingPuzzleManager extends GameManager {
     }
 
     // GameManager abstract methods
-    void initGame() {
+    @Override
+    public void initGame() {
         printWelcome();
         setupGame();
     }
 
-    boolean gameEnd() {
+    @Override
+    public boolean gameEnd() {
         return puzzleSolved;
     }
 
-    Player getWinner() {
+    @Override
+    public Player getWinner() {
         // Sliding puzzle is a single-player game, so no winner concept
         return null;
     }
@@ -57,7 +67,8 @@ public class SlidingPuzzleManager extends GameManager {
 
 
     // Loop to play the game
-    void gameLoop() {
+    @Override
+    public void gameLoop() {
         while (!gameEnd()) {
             board.printBoard();
 

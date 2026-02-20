@@ -1,3 +1,8 @@
+package implementation.DotsAndCrosses;
+
+import classes.Tile;
+import implementation.Player;
+
 public class DotsCrossesTile extends Tile {
     private Player leftEdge;
     private Player rightEdge;

@@ -1,3 +1,7 @@
+package implementation.SlidingPuzzle;
+
+import classes.Tile;
+
 public class SlidingTile extends Tile {
     private int value;
 

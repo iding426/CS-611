@@ -1,3 +1,7 @@
+package io;
+
+import implementation.Player;
+
 public class DotsAndCrossesOutput extends Output {
     @Override
     public void printWelcome() {

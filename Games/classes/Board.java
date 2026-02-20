@@ -1,3 +1,5 @@
+package classes;
+
 public interface Board {
     public abstract int getRows();
     public abstract int getColumns();

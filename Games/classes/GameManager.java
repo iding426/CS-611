@@ -1,5 +1,9 @@
-abstract class GameManager{
-    int moveCount;
+package classes;
+
+import implementation.Player;
+
+public abstract class GameManager{
+    protected int moveCount;
 
     public GameManager() {
         moveCount = 0;
@@ -9,8 +13,8 @@ abstract class GameManager{
         return moveCount;
     }
 
-    abstract void initGame();
-    abstract void gameLoop();
-    abstract boolean gameEnd();
-    abstract Player getWinner();
+    public abstract void initGame();
+    public abstract void gameLoop();
+    public abstract boolean gameEnd();
+    public abstract Player getWinner();
 }
