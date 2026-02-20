@@ -1,5 +1,5 @@
 # CS611-Assignment 2
-## Game Suite - Top Level Management
+## Game Suite
 ---------------------------------------------------------------------------
 - Name: Ian Ding
 - Email: iding918@bu.edu
@@ -295,3 +295,136 @@ The abstract class framework makes it easy to:
 - Implement different player types
 - Create custom I/O handlers
 - Extend functionality without breaking existing code
+
+
+## Game-Specific Details
+---------------------------------------------------------------------------
+
+### Dots and Crosses Game
+
+#### Files
+- **DotsCrossesManager.java**: Main game controller that extends GameManager; manages game initialization, game loop, and player turns; handles replay functionality with statistics tracking; implements the rule where capturing a box grants an extra turn
+- **DotsCrossesBoard.java**: Represents the game board with a grid of tiles; manages edge marking between tiles and border edges; implements neighbor checking and board filling detection; determines winners by counting captured squares
+- **DotsCrossesTile.java**: Represents individual tiles/squares on the board; tracks edge ownership (left, right, top, bottom); automatically sets tile ownership when all 4 edges are complete
+- **DotsAndCrossesPlayer.java**: Specialized player class that tracks total wins across multiple games and squares owned in the current game
+- **io/DotsAndCrossesInput.java**: Handles all user input for the game
+- **io/DotsAndCrossesOutput.java**: Handles all output and display for the game
+
+#### Game Rules
+- Players take turns selecting edges between tiles
+- When a player completes all 4 edges of a square, they capture it
+- **Special Rule**: When a player captures a box, they get another turn immediately
+- The player with the most captured squares at the end wins
+- If players have equal squares, the game is a draw
+
+#### Features
+- **Statistics Tracking**: Players' total wins and current game squares are tracked
+- **Replay System**: After each game, players can replay with the same players (stats persist), return to main menu (new players created), or exit the game
+- **Dynamic Board Size**: Players can choose custom board dimensions
+- **Visual Board**: Clear ASCII representation with player symbols (X and O)
+
+#### Example Gameplay
+```
+Player 1
+Enter your username: ian
+
+Player 2
+Enter your username: ding
+Welcome to Dots and Crosses!
+Enter the number of rows you want to play with: 2
+Enter the number of columns you want to play with: 2
+
+Starting board:
+Current Board State!
++   +   +
+  1   2
++   +   +
+  3   4
++   +   +
+ian = X, ding = O
+
+How to play:
+- Take turns selecting edges between tiles
+- Complete all 4 edges of a square to claim it
+- The player with the most squares wins!
+
+ian, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 1
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Up
+Current Board State!
++---+   +
+  1   2
++   +   +
+  3   4
++   +   +
+```
+
+---
+
+### Sliding Puzzle Game
+
+#### Files
+- **SlidingPuzzleManager.java**: Main game controller that extends GameManager; manages game initialization, setup, and game loop; handles replay functionality with statistics tracking; implements single-player puzzle solving gameplay
+- **SlidingBoard.java**: Represents the game board with a grid of sliding tiles; implements board shuffling using random valid moves (ensures solvability); handles tile sliding logic and validates moves; checks for puzzle completion
+- **SlidingTile.java**: Represents individual tiles on the board; stores tile value (0 represents empty space); tracks position (row and column)
+- **SlidingPlayer.java**: Specialized player class that tracks total wins across multiple games and moves in the current game
+- **io/SlidingInput.java**: Handles all user input for the game
+- **io/SlidingOutput.java**: Handles all output and display for the game
+
+#### Game Rules
+- Single-player puzzle game
+- Tiles are numbered 1 through (rows × cols - 1)
+- One space is empty (represented by 0 or blank)
+- Goal: Arrange tiles in order from 1 to (rows × cols - 1) with empty space at bottom-right
+
+#### Features
+- **Solvable Puzzles**: All puzzles are guaranteed solvable because they're generated using random legal moves from the solved state
+- **Statistics Tracking**: Tracks total wins and moves in current game
+- **Replay System**: After each game, players can play again (stats persist), return to main menu (new player created), or exit the game
+- **Dynamic Board Size**: Players can choose custom board dimensions (minimum 2x2)
+- **Visual Board**: Clear ASCII representation with numbered tiles
+- **Move Counter**: Tracks and displays total moves made
+
+#### Example Gameplay
+```
+Enter player name:
+Enter your username: Alex
+
+Welcome to the Sliding Puzzle Game!
+Try to order the tiles from least to greatest.
+
+Enter number of rows: 3
+Enter number of columns: 3
+
+Board Created!
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 | 5 | 6 |
++---+---+---+
+| 7 | 8 |   |
++---+---+---+
+
+Shuffling!
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 | 5 |   |
++---+---+---+
+| 7 | 8 | 6 |
++---+---+---+
+
+Enter the number of the tile you want to move (or -1 to quit): 6
+
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 | 5 | 6 |
++---+---+---+
+| 7 | 8 |   |
++---+---+---+
+
+Puzzle solved!
+Congratulations Alex! You solved the puzzle in 1 moves!
+```
