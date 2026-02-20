@@ -245,34 +245,6 @@ chmod +x run.sh  # First time only
 
 The script automatically compiles and runs the program.
 
-
-## Adding New Games
----------------------------------------------------------------------------
-
-To add a new game to the suite:
-
-1. **Create a package** under `implementation/` (e.g., `implementation/NewGame/`)
-
-2. **Extend GameManager**: Create a manager class extending `classes.GameManager`
-   - Implement: `initGame()`, `gameLoop()`, `gameEnd()`, `getWinner()`
-
-3. **Extend Tile**: Create a tile class extending `classes.Tile`
-   - Add game-specific tile properties and methods
-
-4. **Implement Board**: Create a board class implementing `classes.Board`
-   - Implement all required board operations
-
-5. **Extend Player** (optional): Create a player class extending `implementation.Player`
-   - Add game-specific statistics tracking
-
-6. **Create I/O classes**: Extend `io.Input` and `io.Output`
-   - Implement game-specific input/output methods
-
-7. **Update Driver**: Add menu option and method to launch your game
-
-8. **Update run.sh**: Add your package to the compilation command
-
-
 ## Notes
 ---------------------------------------------------------------------------
 
@@ -282,12 +254,6 @@ Both games implement replay functionality that tracks:
 - Game-specific statistics (squares owned, moves made)
 - Stats persist when replaying with same players
 - Stats reset when returning to main menu
-
-### Package-Based Architecture
-The project uses Java packages to organize code:
-- Packages match folder structure
-- Import statements specify cross-package dependencies
-- Compilation with `-d bin` preserves package structure in output
 
 ### Extensibility
 The abstract class framework makes it easy to:
@@ -324,41 +290,112 @@ The abstract class framework makes it easy to:
 - **Visual Board**: Clear ASCII representation with player symbols (X and O)
 
 #### Example Gameplay
-```
+=================================
+   Welcome to the Game Suite!   
+=================================
+
+Please select a game to play:
+1. Dots and Crosses
+2. Sliding Puzzle
+3. Exit
+Enter your choice: 1
+
 Player 1
-Enter your username: ian
+Enter your username: Bob
 
 Player 2
-Enter your username: ding
+Enter your username: Alice
 Welcome to Dots and Crosses!
-Enter the number of rows you want to play with: 2
+Enter the number of rows you want to play with: 1
 Enter the number of columns you want to play with: 2
 
 Starting board:
 Current Board State!
 +   +   +
-  1   2
+  1   2  
 +   +   +
-  3   4
-+   +   +
-ian = X, ding = O
+Bob = X, Alice = O
 
 How to play:
 - Take turns selecting edges between tiles
 - Complete all 4 edges of a square to claim it
 - The player with the most squares wins!
 
-ian, it's your turn!
+Bob, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 1
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Left
+Current Board State!
++   +   +
+| 1   2  
++   +   +
+Alice, it's your turn!
 Now enter the edge you want to select!
 Enter the index of the tile: 1
 Enter the direction of the edge you want to select (Up, Down, Left, Right): Up
 Current Board State!
 +---+   +
-  1   2
+| 1   2  
 +   +   +
-  3   4
-+   +   +
-```
+Bob, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 1
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Down
+Current Board State!
++---+   +
+| 1   2  
++---+   +
+Alice, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 1
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Right
+Current Board State!
++---+   +
+| O | 2  
++---+   +
+Alice captured a box! Take another turn.
+Alice, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 2
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Up
+Current Board State!
++---+---+
+| O | 2  
++---+   +
+Bob, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 2
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Right
+Current Board State!
++---+---+
+| O | 2 |
++---+   +
+Alice, it's your turn!
+Now enter the edge you want to select!
+Enter the index of the tile: 2
+Enter the direction of the edge you want to select (Up, Down, Left, Right): Down
+Current Board State!
++---+---+
+| O | O |
++---+---+
+Alice captured a box! Take another turn.
+Congratulations Alice! You win!
+
+========== Final Statistics ==========
+
+--- Bob's Stats ---
+Total Wins: 0
+Squares Owned in Current Game: 0
+
+--- Alice's Stats ---
+Total Wins: 1
+Squares Owned in Current Game: 2
+======================================
+
+--- Game Over Menu ---
+1. Replay with same players
+2. Return to main menu
+3. Exit game
 
 ---
 
