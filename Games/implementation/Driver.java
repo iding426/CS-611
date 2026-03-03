@@ -2,6 +2,7 @@ package implementation;
 
 import implementation.DotsAndCrosses.DotsCrossesManager;
 import implementation.SlidingPuzzle.SlidingPuzzleManager;
+import implementation.Quoridor.QuoridorManager;
 import io.DriverInput;
 import io.DriverOutput;
 
@@ -28,13 +29,16 @@ public class Driver {
                     playSlidingPuzzle();
                     break;
                 case 3:
+                    playQuoridor();
+                    break;
+                case 4:
                     keepPlaying = false;
                     break;
                 default:
                     output.printInvalidChoice();
             }
 
-            if (keepPlaying && choice >= 1 && choice <= 2) {
+            if (keepPlaying && choice >= 1 && choice <= 3) {
                 output.printSeparator();
                 keepPlaying = input.playAnotherGame();
             }
@@ -51,5 +55,10 @@ public class Driver {
     private static void playSlidingPuzzle() {
         SlidingPuzzleManager manager = new SlidingPuzzleManager();
         manager.start();
+    }
+
+    private static void playQuoridor() {
+        QuoridorManager manager = new QuoridorManager();
+        manager.playWithReplay();
     }
 }

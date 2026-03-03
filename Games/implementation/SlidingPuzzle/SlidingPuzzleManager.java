@@ -4,6 +4,7 @@ import classes.GameManager;
 import implementation.Player;
 import io.SlidingInput;
 import io.SlidingOutput;
+import io.QuitGameException;
 
 /*
     TODO:
@@ -31,28 +32,33 @@ public class SlidingPuzzleManager extends GameManager {
     public void start() {
         boolean keepPlaying = true;
         while (keepPlaying) {
-            initGame();
-            gameLoop();
-            
-            // Display final stats
-            displayFinalStats();
-            
-            int choice = input.getReplayChoice();
-            switch (choice) {
-                case 1: // Play again
-                    System.out.println("\nStarting new game...");
-                    resetForNewGame();
-                    break;
-                case 2: // Return to main menu
-                    keepPlaying = false;
-                    break;
-                case 3: // Exit
-                    System.out.println("Thanks for playing!");
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Invalid choice. Returning to main menu.");
-                    keepPlaying = false;
+            try {
+                initGame();
+                gameLoop();
+                
+                // Display final stats
+                displayFinalStats();
+                
+                int choice = input.getReplayChoice();
+                switch (choice) {
+                    case 1: // Play again
+                        System.out.println("\nStarting new game...");
+                        resetForNewGame();
+                        break;
+                    case 2: // Return to main menu
+                        keepPlaying = false;
+                        break;
+                    case 3: // Exit
+                        System.out.println("Thanks for playing!");
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Returning to main menu.");
+                        keepPlaying = false;
+                }
+            } catch (QuitGameException e) {
+                System.out.println("\nQuitting game...");
+                keepPlaying = false;
             }
         }
     }

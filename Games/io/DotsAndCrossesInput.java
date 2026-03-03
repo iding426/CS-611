@@ -21,12 +21,19 @@ public class DotsAndCrossesInput extends Input {
     }
 
     public Object[] getMove() {
-        System.out.println("Now enter the edge you want to select!");
+        System.out.println("Now enter the edge you want to select (or 'quit' to exit)!");
         System.out.print("Enter the index of the tile: ");
+        while (!scanner.hasNextInt()) {
+            String input = scanner.next();
+            checkQuit(input);
+            System.out.println("Invalid input. Please enter a number.");
+            System.out.print("Enter the index of the tile: ");
+        }
         int tile1 = scanner.nextInt();
         scanner.nextLine(); // consume newline
         System.out.print("Enter the direction of the edge you want to select (Up, Down, Left, Right): ");
         String direction = scanner.nextLine();
+        checkQuit(direction);
 
         return new Object[]{tile1, direction};
     }

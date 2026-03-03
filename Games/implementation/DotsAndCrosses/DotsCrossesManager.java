@@ -8,6 +8,7 @@ import classes.Tile;
 import implementation.Player;
 import io.DotsAndCrossesInput;
 import io.DotsAndCrossesOutput;
+import io.QuitGameException;
 
 public class DotsCrossesManager extends GameManager {
     private DotsCrossesBoard board;
@@ -41,28 +42,33 @@ public class DotsCrossesManager extends GameManager {
     public void playWithReplay() {
         boolean keepPlaying = true;
         while (keepPlaying) {
-            initGame();
-            gameLoop();
-            
-            // Display final stats
-            displayFinalStats();
-            
-            int choice = input.getReplayChoice();
-            switch (choice) {
-                case 1: // Replay with same players
-                    System.out.println("\nStarting new game with same players...");
-                    resetForNewGame();
-                    break;
-                case 2: // Return to main menu
-                    keepPlaying = false;
-                    break;
-                case 3: // Exit
-                    System.out.println("Thanks for playing!");
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Invalid choice. Returning to main menu.");
-                    keepPlaying = false;
+            try {
+                initGame();
+                gameLoop();
+                
+                // Display final stats
+                displayFinalStats();
+                
+                int choice = input.getReplayChoice();
+                switch (choice) {
+                    case 1: // Replay with same players
+                        System.out.println("\nStarting new game with same players...");
+                        resetForNewGame();
+                        break;
+                    case 2: // Return to main menu
+                        keepPlaying = false;
+                        break;
+                    case 3: // Exit
+                        System.out.println("Thanks for playing!");
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Returning to main menu.");
+                        keepPlaying = false;
+                }
+            } catch (QuitGameException e) {
+                System.out.println("\nQuitting game...");
+                keepPlaying = false;
             }
         }
     }

@@ -1,0 +1,56 @@
+# Quoridor Implementation
+
+## Overview
+Quoridor is a strategic board game for 2 players. The goal is to be the first player to reach the opposite side of the board while strategically placing walls to block your opponent.
+
+## Game Rules
+- **Board**: 9x9 grid
+- **Players**: 2 players
+  - Player 1: Starts at row 0 (top), must reach row 8 (bottom)
+  - Player 2: Starts at row 8 (bottom), must reach row 0 (top)
+
+## How to Play
+On each turn, a player can either:
+1. **Move their pawn**: One square orthogonally (up, down, left, right)
+   - Can jump over opponent if they are adjacent
+   - Can make diagonal jumps in specific blocking scenarios
+2. **Place a wall**: Block opponent's path (each player has 10 walls total)
+   - Walls span 2 squares
+   - Can be horizontal (H) or vertical (V)
+   - Cannot completely block a player from reaching their goal
+
+## Movement Rules
+- **Simple Move**: Move to an adjacent empty square (no wall blocking)
+- **Jump Move**: If opponent is adjacent, can jump over them to the square beyond
+- **Diagonal Jump**: If direct jump is blocked by a wall, can move diagonally
+
+## Wall Placement Rules
+- Walls must be placed between squares on the board
+- Cannot overlap with existing walls
+- Cannot completely block any player's path to their goal
+- Wall position (r,c) with orientation H blocks vertical movement at that position
+- Wall position (r,c) with orientation V blocks horizontal movement at that position
+
+## Winning
+The first player to reach any square on their goal row wins the game.
+
+## Classes Implemented
+1. **QuoridorTile** (extends Tile): Represents a board position
+2. **QuoridorPlayer** (extends Player): Tracks player state, walls, position
+3. **QuoridorBoard** (implements Board): Manages 9x9 grid, walls, pathfinding
+4. **QuoridorManager** (extends GameManager): Controls game flow
+5. **QuoridorInput** (extends Input): Handles user input
+6. **QuoridorOutput** (extends Output): Handles game display
+
+## Board Display
+- `1` = Player 1's pawn
+- `2` = Player 2's pawn
+- `·` = Empty square
+- `║` = Vertical wall
+- `═` = Horizontal wall
+
+## Features
+- Pathfinding algorithm ensures walls never completely block a player
+- Support for all valid movement types (simple, jump, diagonal)
+- Statistics tracking (wins, moves, walls remaining)
+- Replay functionality with same players

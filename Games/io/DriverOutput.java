@@ -18,7 +18,8 @@ public class DriverOutput extends Output {
         System.out.println("\nPlease select a game to play:");
         System.out.println("1. Dots and Crosses");
         System.out.println("2. Sliding Puzzle");
-        System.out.println("3. Exit");
+        System.out.println("3. Quoridor");
+        System.out.println("4. Exit");
     }
 
     public void printInvalidChoice() {
